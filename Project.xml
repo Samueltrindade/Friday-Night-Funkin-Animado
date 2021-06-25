@@ -102,7 +102,7 @@
 	<haxelib name="discord_rpc" if="windows"/>
 	<haxelib name="linc_luajit" />
 
-	<architecture name="armv7" if="android" />
+	<architecture name="armv7" unless="arm64" if="android" />
 	<architecture name="x86" if="android" />
 
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
