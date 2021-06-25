@@ -13,6 +13,7 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import lime.system.System;
 
 class Main extends Sprite
 {
@@ -27,6 +28,11 @@ class Main extends Sprite
 	public static var watermarks = true; // Whether to put Kade Engine liteartly anywhere
 
 	public static var instance:Main;
+
+	public static var path:String = System.applicationStorageDirectory;
+	
+	
+	// export\release\android\bin\app\build\intermediates\merged_jni_libs\debug\out\armeabi-v7a
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -90,12 +96,12 @@ class Main extends Sprite
 
 		addChild(game);
 
-		#if !mobile
+		//#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
 
-		#end
+		//#end
 	}
 
 	var game:FlxGame;

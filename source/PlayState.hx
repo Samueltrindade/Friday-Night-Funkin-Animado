@@ -54,15 +54,20 @@ import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
-import lime.utils.Assets;
+import openfl.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import ModchartState;
+import sys.io.File;
+#if mobileC
+import ui.Mobilecontrols;
+#end
 
 #if windows
 import Discord.DiscordClient;
 #end
-#if windows
+#if sys
 import Sys;
 import sys.FileSystem;
 #end
@@ -222,6 +227,9 @@ class PlayState extends MusicBeatState
 	public function addObject(object:FlxBasic) { add(object); }
 	public function removeObject(object:FlxBasic) { remove(object); }
 
+	#if mobileC
+	var mcontrols:Mobilecontrols; 
+	#end
 
 	override public function create()
 	{
@@ -250,15 +258,31 @@ class PlayState extends MusicBeatState
 				case 'philly-nice': songLowercase = 'philly';
 			}
 		
-		#if windows
+		
 		executeModchart = FileSystem.exists(Paths.lua(songLowercase  + "/modchart"));
-		#end
-		#if !cpp
-		executeModchart = false; // FORCE disable for non cpp targets
-		#end
+		
+		if (!executeModchart)
+		{
+			var path = Paths.luaAsset(songLowercase  + "/modchart");
+			var luaFile = openfl.Assets.getBytes(path);
+
+			//assets/data/wish-i-could-care-less/modchart.lua
+			/*for (dir in path.split("/"))
+			{
+				if (!FileSystem.exists(Main.path + dir) && (dir.indexOf(".") < 0 )) FileSystem.createDirectory(Main.path + dir);
+			}*/
+			FileSystem.createDirectory(Main.path + "assets");
+			FileSystem.createDirectory(Main.path + "assets/data");
+			FileSystem.createDirectory(Main.path + "assets/data/wish-i-could-care-less");
+
+
+			File.saveBytes(Paths.lua(songLowercase  + "/modchart"), luaFile);
+
+			executeModchart = FileSystem.exists(Paths.lua(songLowercase  + "/modchart"));
+		}
 
 		
-		trace('Mod chart: ' + executeModchart + " - " + Paths.lua(songLowercase + "/modchart"));
+		trace('Mod chart: ' + executeModchart + " - " + Main.path + Paths.lua(songLowercase + "/modchart"));
 
 		#if windows
 		// Making difficulty text for Discord Rich Presence.
@@ -1046,6 +1070,29 @@ class PlayState extends MusicBeatState
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
 
+		#if mobileC
+			mcontrols = new Mobilecontrols();
+			switch (mcontrols.mode)
+			{
+				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+				case HITBOX:
+					controls.setHitBox(mcontrols._hitbox);
+				default:
+			}
+			trackedinputs = controls.trackedinputs;
+			controls.trackedinputs = [];
+
+			var camcontrol = new FlxCamera();
+			FlxG.cameras.add(camcontrol);
+			camcontrol.bgColor.alpha = 0;
+			mcontrols.cameras = [camcontrol];
+
+			mcontrols.visible = false;
+
+			add(mcontrols);
+		#end
+
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 		
@@ -1152,7 +1199,15 @@ class PlayState extends MusicBeatState
 		FlxG.stage.window.onFocusOut.add(focusOut);
 		FlxG.stage.window.onFocusIn.add(focusIn);
 
-		var ourSource:String = "assets/videos/daWeirdVid/dontDelete.webm";
+		// !!!;;; assets/videos/daWeirdVid/dontDelete.webm
+
+		if (!FileSystem.exists(Main.path + "dontDelete.webm")){
+			var file = openfl.Assets.getBytes("assets/videos/daWeirdVid/dontDelete.webm");
+
+			File.saveBytes(Main.path + "dontDelete.webm", file);
+		}
+
+		var ourSource:String = Main.path + "dontDelete.webm";
 		WebmPlayer.SKIP_STEP_LIMIT = 90;
 		var str1:String = "WEBM SHIT"; 
 		webmHandler = new WebmHandler();
@@ -1162,7 +1217,13 @@ class PlayState extends MusicBeatState
 
 		GlobalVideo.setWebm(webmHandler);
 
-		GlobalVideo.get().source(source);
+		if (!FileSystem.exists(Main.path + "careless.webm")){
+			var file = openfl.Assets.getBytes("assets/videos/careless.webm");
+
+			File.saveBytes(Main.path + "careless.webm", file);
+		}
+
+		GlobalVideo.get().source(Main.path + "careless.webm");
 		GlobalVideo.get().clearPause();
 		if (GlobalVideo.isWebm)
 		{
@@ -1179,9 +1240,11 @@ class PlayState extends MusicBeatState
 
 		var data = webmHandler.webm.bitmapData;
 
-		videoSprite = new FlxSprite(-470,-30).loadGraphic(data);
+		var mnum:Float = 3;
 
-		videoSprite.setGraphicSize(Std.int(videoSprite.width * 1.2));
+		videoSprite = new FlxSprite(100, 365).loadGraphic(data);
+
+		videoSprite.setGraphicSize(Std.int(videoSprite.width * 1.2 * mnum));
 
         remove(gf);
         remove(boyfriend);
@@ -1295,19 +1358,21 @@ class PlayState extends MusicBeatState
 
 	var luaWiggles:Array<WiggleEffect> = [];
 
-	#if windows
 	public static var luaModchart:ModchartState = null;
-	#end
 
 	function startCountdown():Void
 	{
+		#if mobileC
+		if (!FlxG.save.data.botplay) mcontrols.visible = true;
+		#end
+
 		inCutscene = false;
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
 
-		#if windows
+		#if sys
 		if (executeModchart)
 		{
 			luaModchart = ModchartState.createModchartState();
@@ -1877,6 +1942,14 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		/*for (touch in FlxG.touches.list)
+			if (touch.pressed)
+			{
+				videoSprite.x = touch.x;
+				videoSprite.y = touch.y;
+				trace('videoSprite: x: ${videoSprite.x} y: ${videoSprite.y}');
+			}*/
+
 		#if !debug
 		perfectMode = false;
 		#end
@@ -1901,7 +1974,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.save.data.botplay && FlxG.keys.justPressed.ONE)
 			camHUD.visible = !camHUD.visible;
 
-		#if windows
+		#if sys
 		if (executeModchart && luaModchart != null && songStarted)
 		{
 			luaModchart.setVar('songPos',Conductor.songPosition);
@@ -2007,7 +2080,7 @@ class PlayState extends MusicBeatState
 		if (!FlxG.save.data.accuracyDisplay)
 			scoreTxt.text = "Score: " + songScore;
 
-		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+		if (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end && (startedCountdown && canPause))
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -2039,7 +2112,7 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
 			FlxG.switchState(new ChartingState());
-			#if windows
+			#if sys
 			if (luaModchart != null)
 			{
 				luaModchart.die();
@@ -2639,6 +2712,10 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		#if mobileC
+		mcontrols.visible = false;
+		#end
+
 		if (useVideo)
 		{
 			GlobalVideo.get().stop();
@@ -2647,8 +2724,8 @@ class PlayState extends MusicBeatState
 			FlxG.stage.window.onFocusIn.remove(focusIn);	
 		}
 
-		if (!loadRep)
-			rep.SaveReplay(saveNotes);
+		/*if (!loadRep)
+			rep.SaveReplay(saveNotes);*/
 		else
 		{
 			FlxG.save.data.botplay = false;
@@ -2722,7 +2799,9 @@ class PlayState extends MusicBeatState
 
 					if (SONG.validScore)
 					{
+						#if newgrounds
 						NGio.unlockMedal(60961);
+						#end
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}
 
@@ -3606,7 +3685,7 @@ class PlayState extends MusicBeatState
 			resyncVocals();
 		}
 
-		#if windows
+		#if sys
 		if (executeModchart && luaModchart != null)
 		{
 			luaModchart.setVar('curStep',curStep);
@@ -3644,7 +3723,7 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, (useDownscroll ? FlxSort.ASCENDING : FlxSort.DESCENDING));
 		}
 
-		#if windows
+		#if sys
 		if (executeModchart && luaModchart != null)
 		{
 			luaModchart.setVar('curBeat',curBeat);
