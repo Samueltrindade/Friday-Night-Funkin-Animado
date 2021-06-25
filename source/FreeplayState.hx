@@ -179,7 +179,7 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = "RECORDE:" + lerpScore;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -258,11 +258,11 @@ class FreeplayState extends MusicBeatState
 		switch (curDifficulty)
 		{
 			case 0:
-				diffText.text = "EASY";
+				diffText.text = "Fácil, mas é Difícil!";
 			case 1:
-				diffText.text = 'NORMAL';
+				diffText.text = 'Normal, mas é Impossível!';
 			case 2:
-				diffText.text = "HARD";
+				diffText.text = "Dificíl, mas é... CORE?";
 		}
 	}
 

@@ -29,14 +29,14 @@ class AboutState extends MusicBeatState
 		
 		logoBl = new FlxSprite(-150, -100);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		logoBl.antialiasing = true;
+		logoBl.antialiasing = false;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		logoBl.screenCenter();
 		logoBl.y = logoBl.y - 100;
 
-		text = new FlxText(0, 0, 0, "version 0.2.7.1" + "\n" + "ported by luckydog7", 64);
+		text = new FlxText(0, 0, 0, "Animação por Chino" + "\n" + "Jogável por Team Silver", 64);
 		text.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		text.screenCenter();
 		text.y = text.y + 150;
@@ -60,6 +60,7 @@ class AboutState extends MusicBeatState
 		}
 
 		#if android
+		addVirtualPad(UP_DOWN, A_B);
 		if (FlxG.android.justReleased.BACK)
 		{
 			FlxG.switchState(new OptionsMenu());

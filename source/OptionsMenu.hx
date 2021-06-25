@@ -25,45 +25,28 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Gameplay", [
+			new DownscrollOption("Escolha de onde as notas virão."),
+			new GhostTapOption("Com Ghost Tapping, você poderá apertar quantos botões quiser, agora sem ele... Melhor tu ficar esperto."),
+			new AccuracyDOption("Escolha como sua precisão é calculada. (Simples ou Complexa = Baseada em Milisegundos)."),
 			new DFJKOption(controls),
-			new DownscrollOption("Change the layout of the strumline."),
-			new GhostTapOption("Ghost Tapping is when you tap a direction and it doesn't give you a miss."),
-			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
-			#if desktop
-			new FPSCapOption("Cap your FPS"),
-			#end
-			new ScrollSpeedOption("Change your scroll speed (1 = Chart dependent)"),
-			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
-			new ResetButtonOption("Toggle pressing R to gameover."),
-			// new OffsetMenu("Get a note offset based off of your inputs!"),
-			new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
 		]),
-		new OptionCategory("Appearance", [
-			#if desktop
+		new OptionCategory("Opcoes Visuais", [
 			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
-			new RainbowFPSOption("Make the FPS Counter Rainbow"),
-			new AccuracyOption("Display accuracy information."),
-			new NPSDisplayOption("Shows your current Notes Per Second."),
-			new SongPositionOption("Show the songs current position (as a bar)"),
-			new CpuStrums("CPU's strumline lights up when a note hits it."),
-			#else
-			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay.")
-			#end
+			new SongPositionOption("Mostra a duração da Música (como uma barra)"),
+			new AccuracyOption("Mostra ou esconde a barra de informações (pontuação... sas parada ai)"),
+			new CpuStrums("A nota do oponente faz brilin caso ele acerte, tu não será o único com brilin não rapaz..."),
+			new FlashingLightsOption("Se você tem epilepsia, por favor deixe isso invisível isto."),
 		]),
 		
-		new OptionCategory("Misc", [
-			#if desktop
-			new FPSOption("Toggle the FPS Counter"),
-			new ReplayOption("View replays"),
-			#end
-			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
-			new WatermarkOption("Enable and disable all watermarks from the engine."),
-			new BotPlay("Showcase your charts and mods with autoplay.")
+		new OptionCategory("Adicionais", [
+			new FPSOption("Veja ou não seu FPS."),
+			new RainbowFPSOption("Deixa seu FPS parecendo uma bandeira GAY, toda colorida."),
+			new WatermarkOption("Exibe as marcas da água da engine, ahhh qualé, elas são bonitinhas, CONFIA!"),
+			new BotPlay("Se você passou usando Botplay... Parabens! Você não passou, AGORA VÁ JOGAR QUE NEM GENTE!")
 		]),
 
-		new OptionCategory("Mobile settings", [
-			new CustomControls("edit a control"),
-			new About("about android port")
+		new OptionCategory("Configuracoes Mobile", [
+			new CustomControls("Customize seus controles"),
 		])
 		
 	];
@@ -85,7 +68,7 @@ class OptionsMenu extends MusicBeatState
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
-		menuBG.antialiasing = true;
+		menuBG.antialiasing = false;
 		add(menuBG);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -102,7 +85,7 @@ class OptionsMenu extends MusicBeatState
 
 		currentDescription = "none";
 
-		versionShit = new FlxText(5, FlxG.height + 40, 0, "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription, 12);
+		versionShit = new FlxText(5, FlxG.height + 40, 0, " - Descrição - " + currentDescription, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		
@@ -191,9 +174,9 @@ class OptionsMenu extends MusicBeatState
 				
 				}
 				if (currentSelectedCat.getOptions()[curSelected].getAccept())
-					versionShit.text =  currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
+					versionShit.text =  currentSelectedCat.getOptions()[curSelected].getValue() + " - Descrição - " + currentDescription;
 				else
-					versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+					versionShit.text = " - Descrição - " + currentDescription;
 			}
 			else
 			{
@@ -265,16 +248,16 @@ class OptionsMenu extends MusicBeatState
 		if (isCat)
 			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
 		else
-			currentDescription = "Please select a category";
+			currentDescription = "Selecione uma Categoria ai Mermão";
 		if (isCat)
 		{
 			if (currentSelectedCat.getOptions()[curSelected].getAccept())
-				versionShit.text =  currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
+				versionShit.text =  currentSelectedCat.getOptions()[curSelected].getValue() + " - Descrição - " + currentDescription;
 			else
-				versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+				versionShit.text = " - Descrição - " + currentDescription;
 		}
 		else
-			versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+			versionShit.text = " - Descrição - " + currentDescription;
 		// selector.y = (70 * curSelected) + 30;
 
 		var bullShit:Int = 0;

@@ -294,8 +294,8 @@ extern class Lua {
 	@:native('lua_yield')
 	static function yield(l:State, n:Int) : Int;
 
-	@:native('lua_resume')
-	static function resume(l:State, narg:Int) : Int;
+	@:native('lua_Resume')
+	static function Resume(l:State, narg:Int) : Int;
 
 	@:native('lua_status')
 	static function status(l:State) : Int;

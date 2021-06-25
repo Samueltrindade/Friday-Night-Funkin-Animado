@@ -86,7 +86,7 @@ class CustomControls extends Option
 	}
 	private override function updateDisplay():String
 	{
-		return "controls";
+		return "Controles";
 	}
 
 }
@@ -104,7 +104,7 @@ class About extends Option
 	}
 	private override function updateDisplay():String
 	{
-		return "About";
+		return "Informacoes";
 	}
 
 }
@@ -127,7 +127,7 @@ class DFJKOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Key Bindings";
+		return "Teclado Config";
 	}
 }
 
@@ -149,7 +149,7 @@ class CpuStrums extends Option
 
 	private override function updateDisplay():String
 	{
-		return  FlxG.save.data.cpuStrums ? "Light CPU Strums" : "CPU Strums stay static";
+		return  FlxG.save.data.cpuStrums ? "Notas da CPU ativas" : "Notas da CPU Inativas";
 	}
 
 }
@@ -192,7 +192,7 @@ class GhostTapOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return FlxG.save.data.ghost ? "Ghost Tapping" : "No Ghost Tapping";
+		return FlxG.save.data.ghost ? "Ghost Tapping" : "Sem Ghost Tapping";
 	}
 }
 
@@ -212,7 +212,7 @@ class AccuracyOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Accuracy " + (!FlxG.save.data.accuracyDisplay ? "off" : "on");
+		return "info " + (!FlxG.save.data.accuracyDisplay ? "invisivel" : "visivel");
 	}
 }
 
@@ -232,7 +232,7 @@ class SongPositionOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Song Position " + (!FlxG.save.data.songPosition ? "off" : "on");
+		return "Marca Tempo " + (!FlxG.save.data.songPosition ? "invisivel" : "Visivel");
 	}
 }
 
@@ -252,7 +252,7 @@ class DistractionsAndEffectsOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Distractions " + (!FlxG.save.data.distractions ? "off" : "on");
+		return "Distracoes " + (!FlxG.save.data.distractions ? "Invisivel" : "Visivel");
 	}
 }
 
@@ -272,7 +272,7 @@ class ResetButtonOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Reset Button " + (!FlxG.save.data.resetButton ? "off" : "on");
+		return "Botao resetar " + (!FlxG.save.data.resetButton ? "desligado" : "ligado");
 	}
 }
 
@@ -292,7 +292,7 @@ class FlashingLightsOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Flashing Lights " + (!FlxG.save.data.flashing ? "off" : "on");
+		return "Luzes Piscantes " + (!FlxG.save.data.flashing ? "invisivel" : "visivel");
 	}
 }
 
@@ -369,7 +369,7 @@ class FPSOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "FPS Counter " + (!FlxG.save.data.fps ? "off" : "on");
+		return "FPS " + (!FlxG.save.data.fps ? "invisivel" : "Visivel");
 	}
 }
 
@@ -492,7 +492,7 @@ class RainbowFPSOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "FPS Rainbow " + (!FlxG.save.data.fpsRain ? "off" : "on");
+		return "FPS Colorido " + (!FlxG.save.data.fpsRain ? "Desligado" : "Ligado");
 	}
 }
 
@@ -513,7 +513,7 @@ class NPSDisplayOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "NPS Display " + (!FlxG.save.data.npsDisplay ? "off" : "on");
+		return "NPS " + (!FlxG.save.data.npsDisplay ? "invisivel" : "visivel");
 	}
 }
 
@@ -555,7 +555,7 @@ class AccuracyDOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Accuracy Mode: " + (FlxG.save.data.accuracyMod == 0 ? "Accurate" : "Complex");
+		return "Precisao: " + (FlxG.save.data.accuracyMod == 0 ? "Complexa" : "Simples");
 	}
 }
 
@@ -598,7 +598,7 @@ class WatermarkOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Watermarks " + (Main.watermarks ? "on" : "off");
+		return "Marcas " + (Main.watermarks ? "Visivel" : "invisivel");
 	}
 }
 
@@ -647,5 +647,5 @@ class BotPlay extends Option
 	}
 	
 	private override function updateDisplay():String
-		return "BotPlay " + (FlxG.save.data.botplay ? "on" : "off");
+		return "BotPlay " + (FlxG.save.data.botplay ? "Ligado" : "Desligado");
 }

@@ -22,17 +22,17 @@ class Ratings
         // WIFE TIME :)))) (based on Wife3)
 
         var wifeConditions:Array<Bool> = [
-            accuracy >= 99.9935, // AAAAA
-            accuracy >= 99.980, // AAAA:
-            accuracy >= 99.970, // AAAA.
-            accuracy >= 99.955, // AAAA
-            accuracy >= 99.90, // AAA:
-            accuracy >= 99.80, // AAA.
-            accuracy >= 99.70, // AAA
-            accuracy >= 99, // AA:
-            accuracy >= 96.50, // AA.
-            accuracy >= 93, // AA
-            accuracy >= 90, // A:
+            accuracy >= 99, // AAAAA
+            accuracy >= 98, // AAAA:
+            accuracy >= 97, // AAAA.
+            accuracy >= 96, // AAAA
+            accuracy >= 95, // AAA:
+            accuracy >= 94, // AAA.
+            accuracy >= 93, // AAA
+            accuracy >= 92, // AA:
+            accuracy >= 91, // AA.
+            accuracy >= 90, // AA
+            accuracy >= 87.5, // A:
             accuracy >= 85, // A.
             accuracy >= 80, // A
             accuracy >= 70, // B
@@ -47,38 +47,38 @@ class Ratings
             {
                 switch(i)
                 {
-                    case 0:
-                        ranking += " AAAAA";
+case 0:
+                        ranking += " Perfeito";
                     case 1:
-                        ranking += " AAAA:";
+                        ranking += " Quase Perfeito";
                     case 2:
-                        ranking += " AAAA.";
+                        ranking += " Excelente";
                     case 3:
-                        ranking += " AAAA";
+                        ranking += " Ótimo";
                     case 4:
-                        ranking += " AAA:";
+                        ranking += " Legal";
                     case 5:
-                        ranking += " AAA.";
+                        ranking += " Ótimo";
                     case 6:
-                        ranking += " AAA";
+                        ranking += " Bom";
                     case 7:
-                        ranking += " AA:";
+                        ranking += " Bonzim";
                     case 8:
-                        ranking += " AA.";
+                        ranking += " Razoável";
                     case 9:
-                        ranking += " AA";
+                        ranking += " Aceitável";
                     case 10:
-                        ranking += " A:";
+                        ranking += " Ok";
                     case 11:
-                        ranking += " A.";
+                        ranking += " SUS";
                     case 12:
-                        ranking += " A";
+                        ranking += " Meh";
                     case 13:
-                        ranking += " B";
+                        ranking += " Ruim";
                     case 14:
-                        ranking += " C";
+                        ranking += " Péssimo";
                     case 15:
-                        ranking += " D";
+                        ranking += " Horrível";
                 }
                 break;
             }
@@ -133,9 +133,9 @@ class Ratings
     {
         return 
         (FlxG.save.data.npsDisplay ? "NPS: " + nps + " (Max " + maxNPS + ")" + (!FlxG.save.data.botplay ? " | " : "") : "") + (!FlxG.save.data.botplay ?	// NPS Toggle
-        "Score:" + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) + 									// Score
-        " | Combo Breaks:" + PlayState.misses + 																				// Misses/Combo Breaks
-        " | Accuracy:" + (FlxG.save.data.botplay ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +  				// Accuracy
+        "Pontuação: " + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) + 									// Score
+        " | Erros:" + PlayState.misses + 																				// Misses/Combo Breaks
+        " | Precisão:" + (FlxG.save.data.botplay ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +  				// Accuracy
         " | " + GenerateLetterRank(accuracy) : ""); 																			// Letter Rank
     }
 }
